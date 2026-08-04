@@ -1,0 +1,10 @@
+{
+  "name": "MMM-USACELake",
+  "version": "1.0.0",
+  "description": "MagicMirror module for USACE CWMS reservoirs",
+  "license": "MIT",
+  "main": "MMM-USACELake.js",
+  "dependencies": {
+    "axios": "^1.11.0"
+  }
+}
