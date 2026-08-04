@@ -15,7 +15,7 @@ module.exports = NodeHelper.create({
 
         const api = new CWMS(config.office);
 
-        api.getLatest(config.location)
+        api.getLatest()
             .then(data => {
 
                 this.sendSocketNotification(
