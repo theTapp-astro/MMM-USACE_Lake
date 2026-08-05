@@ -1,31 +1,19 @@
 .usace {
-
     width: 300px;
-
 }
 
 .usace .title {
-
     font-size: 28px;
-
     color: white;
-
     margin-bottom: 15px;
-
 }
 
 .usace .row {
-
     display: flex;
-
     justify-content: space-between;
-
     margin: 6px 0;
-
 }
 
 .usace .row span:last-child {
-
     font-weight: bold;
-
 }
