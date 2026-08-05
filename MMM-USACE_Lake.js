@@ -1,4 +1,4 @@
-Module.register("MMM-USACELake", {
+Module.register("MMM-USACE_Lake", {
 
     defaults: {
 
