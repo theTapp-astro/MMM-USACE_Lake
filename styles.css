@@ -1,19 +1,87 @@
-.usace {
+/*
+ * MMM-USACE_Lake
+ * Styling for USACE CWMS lake data
+ */
+
+.usace-wrapper {
     width: 300px;
+    font-size: 18px;
+    line-height: 1.4;
 }
 
-.usace .title {
-    font-size: 28px;
-    color: white;
-    margin-bottom: 15px;
+.usace-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    color: #ffffff;
 }
 
-.usace .row {
+.usace-row {
     display: flex;
     justify-content: space-between;
-    margin: 6px 0;
+    align-items: center;
+
+    padding: 4px 0;
+
+    border-bottom: 1px solid rgba(255,255,255,0.15);
 }
 
-.usace .row span:last-child {
+.usace-row:last-child {
+    border-bottom: none;
+}
+
+.usace-row .label {
+    color: #aaa;
+    text-align: left;
+}
+
+.usace-row .value {
+    color: #fff;
     font-weight: bold;
+    text-align: right;
+}
+
+
+/*
+ * Optional status colors
+ */
+
+.usace-good {
+    color: #7CFC00;
+}
+
+.usace-warning {
+    color: #ffd700;
+}
+
+.usace-error {
+    color: #ff4444;
+}
+
+
+/*
+ * Smaller timestamp text
+ */
+
+.usace-updated {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+}
+
+
+/*
+ * Compact layout option
+ */
+
+.usace-wrapper.compact {
+    width: 250px;
+    font-size: 15px;
+}
+
+.usace-wrapper.compact .usace-title {
+    font-size: 20px;
 }
