@@ -1,7 +1,8 @@
 {
   "name": "MMM-USACE_Lake",
   "version": "1.0.0",
-  "description": "MagicMirror module for USACE CWMS reservoirs",
+  "description": "MagicMirror module for USACE CWMS lake and reservoir data",
+  "author": "LTapp with use of ChatGPT",
   "license": "MIT",
   "main": "MMM-USACE_Lake.js",
   "dependencies": {
