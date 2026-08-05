@@ -4,7 +4,7 @@ const CWMS = require("./lib/cwms");
 module.exports = NodeHelper.create({
 
     start() {
-        console.log("MMM-USACELake started");
+        console.log("MMM-USACE_Lake started");
     },
 
     socketNotificationReceived(notification, config) {
