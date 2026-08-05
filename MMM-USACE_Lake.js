@@ -1,98 +1,149 @@
+/* global Module */
+
 Module.register("MMM-USACE_Lake", {
 
     defaults: {
-
         office: "LRH",
-        location: "alumcr",
-
-        updateInterval: 300000
-
+        location: "AlumCr",
+        refreshInterval: 5 * 60 * 1000,
+        animationSpeed: 1000,
+        units: "EN",
+        showTemperature: true,
+        showStorage: true,
+        showUpdated: true,
+        debug: false
     },
 
     start() {
+        Log.info(`Starting module: ${this.name}`);
 
-        this.data = null;
+        this.loaded = false;
+        this.error = null;
+        this.lakeData = {};
 
-        this.getData();
+        this.getLakeData();
 
-        setInterval(() => {
-
-            this.getData();
-
-        }, this.config.updateInterval);
-
+        this.timer = setInterval(() => {
+            this.getLakeData();
+        }, this.config.refreshInterval);
     },
 
-    getData() {
+    getStyles() {
+        return [
+            "styles.css"
+        ];
+    },
 
-        this.sendSocketNotification(
-            "GET_DATA",
-            this.config
-        );
-
+    getLakeData() {
+        this.sendSocketNotification("USACE_GET_DATA", {
+            office: this.config.office,
+            location: this.config.location,
+            units: this.config.units
+        });
     },
 
     socketNotificationReceived(notification, payload) {
 
-        if (notification === "DATA") {
+        if (notification === "USACE_DATA") {
 
-            this.data = payload;
+            if (this.config.debug) {
+                Log.info(payload);
+            }
 
-            this.updateDom(500);
+            this.loaded = true;
+            this.error = null;
+            this.lakeData = payload;
 
+            this.updateDom(this.config.animationSpeed);
         }
 
-    },
+        if (notification === "USACE_ERROR") {
 
-    getStyles() {
+            this.error = payload;
+            this.loaded = true;
 
-        return [
-            "styles.css"
-        ];
-
+            this.updateDom();
+        }
     },
 
     getDom() {
 
         const wrapper = document.createElement("div");
+        wrapper.className = "usace-wrapper";
 
-        wrapper.className = "usace";
-
-        if (!this.data) {
-
-            wrapper.innerHTML = "Loading lake data...";
-
+        if (!this.loaded) {
+            wrapper.innerHTML = "Loading USACE data...";
             return wrapper;
+        }
+
+        if (this.error) {
+            wrapper.innerHTML = `Error: ${this.error}`;
+            return wrapper;
+        }
+
+        const title = document.createElement("div");
+        title.className = "usace-title";
+        title.innerHTML = this.config.location;
+
+        wrapper.appendChild(title);
+
+        wrapper.appendChild(this.makeRow(
+            "Elevation",
+            `${this.lakeData.elevation ?? "--"} ft`
+        ));
+
+        wrapper.appendChild(this.makeRow(
+            "Outflow",
+            `${this.lakeData.outflow ?? "--"} cfs`
+        ));
+
+        if (this.config.showStorage) {
+
+            wrapper.appendChild(this.makeRow(
+                "Storage",
+                `${this.lakeData.storage ?? "--"} ac-ft`
+            ));
 
         }
 
-        wrapper.innerHTML = `
-            <div class="title">${this.config.location.toUpperCase()}</div>
+        if (this.config.showTemperature) {
 
-            <div class="row">
-                <span>Elevation</span>
-                <span>${this.data.elevation ?? "--"} ft</span>
-            </div>
+            wrapper.appendChild(this.makeRow(
+                "Water Temp",
+                `${this.lakeData.temperature ?? "--"} °F`
+            ));
 
-            <div class="row">
-                <span>Inflow</span>
-                <span>${this.data.inflow ?? "--"} cfs</span>
-            </div>
+        }
 
-            <div class="row">
-                <span>Outflow</span>
-                <span>${this.data.outflow ?? "--"} cfs</span>
-            </div>
+        if (this.config.showUpdated) {
 
-            <div class="row">
-                <span>Water</span>
-                <span>${this.data.temperature ?? "--"} °F</span>
-            </div>
+            wrapper.appendChild(this.makeRow(
+                "Updated",
+                this.lakeData.updated ?? "--"
+            ));
 
-        `;
+        }
 
         return wrapper;
+    },
 
+    makeRow(label, value) {
+
+        const row = document.createElement("div");
+        row.className = "usace-row";
+
+        const left = document.createElement("span");
+        left.className = "label";
+        left.innerHTML = label;
+
+        const right = document.createElement("span");
+        right.className = "value";
+        right.innerHTML = value;
+
+        row.appendChild(left);
+        row.appendChild(right);
+
+        return row;
     }
 
 });
