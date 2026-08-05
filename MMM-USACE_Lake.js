@@ -5,6 +5,7 @@ Module.register("MMM-USACE_Lake", {
     defaults: {
         office: "LRH",
         location: "AlumCr",
+        title: "Alum Creek Lake",
         refreshInterval: 5 * 60 * 1000,
         animationSpeed: 1000,
         units: "EN",
