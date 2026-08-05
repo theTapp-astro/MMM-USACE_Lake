@@ -1,5 +1,5 @@
 {
-  "name": "MMM-USACELake",
+  "name": "MMM-USACE_Lake",
   "version": "1.0.0",
   "description": "MagicMirror module for USACE CWMS reservoirs",
   "license": "MIT",
