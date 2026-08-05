@@ -4,36 +4,52 @@ const CWMS = require("./lib/cwms");
 module.exports = NodeHelper.create({
 
     start() {
-        console.log("MMM-USACE_Lake started");
+        console.log("MMM-USACE_Lake: node_helper started");
+
+        this.cwms = null;
     },
 
-    socketNotificationReceived(notification, config) {
+    socketNotificationReceived(notification, payload) {
 
-        if (notification !== "GET_DATA") {
+        if (notification !== "USACE_GET_DATA") {
             return;
         }
 
-        const api = new CWMS(config.office);
+        if (!this.cwms) {
+            this.cwms = new CWMS(payload.office);
+        }
 
-        api.getLatest()
-            .then(data => {
+        this.getLakeData(payload);
 
-                this.sendSocketNotification(
-                    "DATA",
-                    data
-                );
+    },
 
-            })
-            .catch(error => {
+    async getLakeData(config) {
 
-                console.error(error);
+        try {
 
-                this.sendSocketNotification(
-                    "ERROR",
-                    error.message
-                );
+            const data = await this.cwms.getLatest(
+                config.location,
+                config.units
+            );
 
-            });
+            this.sendSocketNotification(
+                "USACE_DATA",
+                data
+            );
+
+        } catch (error) {
+
+            console.error(
+                "MMM-USACE_Lake:",
+                error.message
+            );
+
+            this.sendSocketNotification(
+                "USACE_ERROR",
+                error.message
+            );
+
+        }
 
     }
 
