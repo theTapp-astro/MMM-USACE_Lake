@@ -1,5 +1,5 @@
 {
-    module: "MMM-USACELake",
+    module: "MMM-USACE_Lake",
     position: "top_right",
 
     config: {
