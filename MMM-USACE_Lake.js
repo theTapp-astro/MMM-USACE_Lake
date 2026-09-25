@@ -84,7 +84,7 @@ Module.register("MMM-USACE_Lake", {
 
         const title = document.createElement("div");
         title.className = "usace-title";
-        title.innerHTML = this.config.location;
+        title.innerHTML = this.config.title;
 
         wrapper.appendChild(title);
 
@@ -135,7 +135,7 @@ Module.register("MMM-USACE_Lake", {
 
         const left = document.createElement("span");
         left.className = "label";
-        left.innerHTML = label;
+        left.innerHTML = `${label}:`;
 
         const right = document.createElement("span");
         right.className = "value";
