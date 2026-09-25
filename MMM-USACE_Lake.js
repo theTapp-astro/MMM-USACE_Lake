@@ -135,7 +135,7 @@ Module.register("MMM-USACE_Lake", {
 
         const left = document.createElement("span");
         left.className = "label";
-        left.innerHTML = `${label}:`;
+        left.innerHTML = `${label}:  `;
 
         const right = document.createElement("span");
         right.className = "value";
