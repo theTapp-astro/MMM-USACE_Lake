@@ -20,8 +20,8 @@
 
 .usace-row {
     display: flex;
-    justify-content: space-between;
     align-items: left;
+    text-align: left;
 
     padding: 4px 0;
 
